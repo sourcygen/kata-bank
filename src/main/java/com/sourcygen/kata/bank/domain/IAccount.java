@@ -9,4 +9,6 @@ public interface IAccount {
 	void makeDeposit(Date date, long amount);
 	
 	void makeWithdraw(Date date, long amount);
+	
+	String getHistory(IStatementSerializer serializer);
 }

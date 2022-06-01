@@ -64,5 +64,17 @@ class DepositTransactionTest {
 			transaction.execute(REF_BALANCE);
 		});
 	}
+	
+	@Test
+	void testDepositOperation() {
+		// Arrange
+		ITransaction transaction = new DepositTransaction(new Date(), 0);
+
+		// Act
+		final String operation = transaction.getOperation();
+		
+		// Assert
+		assertEquals("Deposit", operation);
+	}
 
 }

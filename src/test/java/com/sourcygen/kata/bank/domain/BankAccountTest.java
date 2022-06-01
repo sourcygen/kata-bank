@@ -30,6 +30,9 @@ class BankAccountTest {
 
 	@Mock
 	private IStatement statement;
+	
+	@Mock
+	private IStatementSerializer serializer;
 
 	@BeforeEach
 	void init() {
@@ -146,5 +149,19 @@ class BankAccountTest {
 		verify(statement, times(1)).addTransaction(any(WithdrawTransaction.class));
 	}
 
+	@Test
+	void testGettingHistory() {
+		// Arrange
+		final String expectedHistory = "foo history";
+		doReturn(expectedHistory).when(serializer).serialize(statement);
+
+		// Act
+		final String actualHistory = account.getHistory(serializer);
+		
+		// Assert
+		assertEquals(expectedHistory, actualHistory);
+		verify(serializer, times(1)).serialize(statement);
+	}
+	
 }
 	

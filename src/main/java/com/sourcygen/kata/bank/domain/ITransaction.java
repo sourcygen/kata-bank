@@ -6,6 +6,8 @@ public interface ITransaction {
 
 	void execute(long refBalance);
 	
+	String getOperation();
+	
 	Date getDate();
 
 	long getAmount();

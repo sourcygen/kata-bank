@@ -17,4 +17,9 @@ public class DepositTransaction extends BankTransaction {
 		this.newBalance = refBalance + this.amount;
 	}
 
+	@Override
+	public String getOperation() {
+		return "Deposit";
+	}
+
 }

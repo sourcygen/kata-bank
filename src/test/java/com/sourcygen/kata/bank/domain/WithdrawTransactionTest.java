@@ -92,4 +92,15 @@ class WithdrawTransactionTest {
 		assertEquals(0, transaction.getBalance());
 	}
 
+	@Test
+	void testDepositOperation() {
+		// Arrange
+		ITransaction transaction = new WithdrawTransaction(new Date(), 0);
+
+		// Act
+		final String operation = transaction.getOperation();
+		
+		// Assert
+		assertEquals("Withdraw", operation);
+	}
 }
