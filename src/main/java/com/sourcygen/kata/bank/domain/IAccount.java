@@ -7,4 +7,6 @@ public interface IAccount {
 	long getBalance();
 	
 	void makeDeposit(Date date, long amount);
+	
+	void makeWithdraw(Date date, long amount);
 }

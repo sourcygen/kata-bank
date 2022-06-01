@@ -24,4 +24,9 @@ public class BankAccount implements IAccount {
 		this.statement.addTransaction(new DepositTransaction(date, amount));
 	}
 
+	@Override
+	public void makeWithdraw(Date date, long amount) {
+		this.statement.addTransaction(new WithdrawTransaction(date, amount));
+	}
+
 }

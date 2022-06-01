@@ -103,4 +103,48 @@ class BankAccountTest {
 		verify(statement, times(1)).addTransaction(any(DepositTransaction.class));
 	}
 
+	private static Stream<Arguments> testMakingWithdrawArguments() {
+		return Stream.of(
+				Arguments.of(new Date(), 0, 100, true), 
+				Arguments.of(new Date(), -20, 100, true), 
+				Arguments.of(new Date(), 101, 100, true),
+				Arguments.of(new Date(), 20, 80, false), 
+				Arguments.of(new Date(), 50, 50, false), 
+				Arguments.of(new Date(), 100, 0, false)
+		);
+	}
+	
+	@ParameterizedTest(name = "{index} : given a initial balance of 100 and a withdraw of {1}, the new balance should be {2}")
+	@MethodSource("testMakingWithdrawArguments")
+	void testMakingWithdraw(Date date, long amount, long expectedBalance, boolean isUnsupported) {
+		// Arrange 
+		if(isUnsupported) {
+			doThrow(UnsupportedOperationException.class).when(statement).addTransaction(any(WithdrawTransaction.class));
+		} else {
+			doNothing().when(statement).addTransaction(any(WithdrawTransaction.class));
+		}
+		doReturn(expectedBalance).when(statement).getBalance();
+
+		try {
+			// Act
+			account.makeWithdraw(date, amount);
+
+			// Assert
+			if (isUnsupported) {
+				fail("Previous action should trigger an exception");
+			}
+		} catch (Exception e) {
+			// Assert
+			if (!isUnsupported) {
+				fail("Previous action should not trigger any exception");
+			}
+		}
+		
+		// Assert
+		assertEquals(expectedBalance, account.getBalance());
+		verify(statement, times(1)).getBalance();
+		verify(statement, times(1)).addTransaction(any(WithdrawTransaction.class));
+	}
+
 }
+	

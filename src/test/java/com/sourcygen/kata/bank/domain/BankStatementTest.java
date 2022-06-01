@@ -37,7 +37,8 @@ class BankStatementTest {
 		ITransaction[] inputTransactions = { 
 				new DepositTransaction(new Date(), 100),
 				new DepositTransaction(new Date(), -200), 
-				new DepositTransaction(new Date(), 300) 
+				new DepositTransaction(new Date(), 300),
+				new WithdrawTransaction(new Date(), 250) 
 		};
 
 		// Act
@@ -52,10 +53,11 @@ class BankStatementTest {
 		List<ITransaction> recordedTransactions = statement.getTransactions();
 
 		// Assert
-		assertEquals(400, statement.getBalance());
-		assertEquals(2, recordedTransactions.size());
+		assertEquals(150, statement.getBalance());
+		assertEquals(3, recordedTransactions.size());
 		assertEquals(inputTransactions[0], recordedTransactions.get(0));
 		assertEquals(inputTransactions[2], recordedTransactions.get(1));
+		assertEquals(inputTransactions[3], recordedTransactions.get(2));
 	}
 
 	@Test
